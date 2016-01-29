@@ -39,6 +39,12 @@ class iOSDemo10ViewController: UIViewController {
         button.setTitleColor(.grayColor(), forState: .Highlighted)
         return button
         }()
+    //s_UIView
+    let toggleConstraintsButtonContainer:UIView = {
+        let view = UIView.newAutoLayoutView()
+        view.backgroundColor = .greenColor()
+        return view
+    }()
     
     var didSetupConstraints = false
     
@@ -58,7 +64,9 @@ class iOSDemo10ViewController: UIViewController {
         view.addSubview(yellowView)
         view.addSubview(greenView)
         
-        view.addSubview(toggleConstraintsButton)
+        view.addSubview(toggleConstraintsButtonContainer)
+        toggleConstraintsButtonContainer.addSubview(toggleConstraintsButton)
+        toggleConstraintsButton.autoCenterInSuperview()
         toggleConstraintsButton.addTarget(self, action: "toggleConstraints:", forControlEvents: .TouchUpInside)
         
         view.setNeedsUpdateConstraints() // bootstrap Auto Layout
@@ -85,8 +93,9 @@ class iOSDemo10ViewController: UIViewController {
                 self.redView.autoAlignAxisToSuperviewAxis(.Vertical)
             }
             
-            toggleConstraintsButton.autoPinEdgeToSuperviewEdge(.Bottom, withInset: 10.0)
-            toggleConstraintsButton.autoAlignAxisToSuperviewAxis(.Vertical)
+            toggleConstraintsButtonContainer.autoPinEdgeToSuperviewEdge(.Bottom, withInset: 10.0)
+            toggleConstraintsButtonContainer.autoAlignAxisToSuperviewAxis(.Vertical)
+            toggleConstraintsButtonContainer.autoSetDimensionsToSize(CGSize(width: 170, height: 40))
             
             didSetupConstraints = true
         }
